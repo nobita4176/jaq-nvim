@@ -22,7 +22,7 @@ local config = {
       width     = 0.8,
       x         = 0.5,
       y         = 0.5,
-      winblend  = 0
+      winblend  = nil,
     },
 
     terminal = {
@@ -93,7 +93,9 @@ local function float(cmd)
 
   vim.api.nvim_win_set_option(M.win, "winhl", ("Normal:%s"):format(config.ui.float.winhl))
   vim.api.nvim_win_set_option(M.win, "winhl", ("FloatBorder:%s"):format(config.ui.float.borderhl))
-  vim.api.nvim_win_set_option(M.win, "winblend", config.ui.float.winblend)
+  if (config.ui.float.winblend ~= nil) then
+    vim.api.nvim_win_set_option(M.win, "winblend", config.ui.float.winblend)
+  end
 
   vim.api.nvim_buf_set_option(M.buf, "filetype", "Jaq")
   vim.api.nvim_buf_set_option(M.buf, 'bufhidden', 'wipe')
