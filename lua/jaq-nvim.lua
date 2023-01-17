@@ -188,8 +188,14 @@ local function run(type, cmd)
     return
   end
 
-  if config.behavior.autosave then
-    vim.cmd("silent write")
+  if vim.api.nvim_buf_get_option(0, 'buftype') == 'nofile' then
+    local temp = vim.fn.tempname()
+    vim.cmd('silent write ' .. temp)
+    cmd = cmd:gsub('%%', temp)
+  else
+    if config.behavior.autosave then
+      vim.cmd("silent write")
+    end
   end
 
   cmd = substitute(cmd)
