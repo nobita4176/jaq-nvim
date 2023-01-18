@@ -46,11 +46,25 @@ local function dimensions(opts)
   local cl = vim.o.columns
   local ln = vim.o.lines
 
+  local top = 0
+  local bottom = 0
+
+  if vim.o.showtabline > 0 then
+    top = top + 1
+  end
+  if vim.o.laststatus == 3 then
+    bottom = bottom + 1
+  end
+  if vim.o.cmdheight > 0 then
+    bottom = bottom + vim.o.cmdheight
+  end
+  ln = ln - top - bottom
+
   local width = math.ceil(cl * opts.ui.float.width)
-  local height = math.ceil(ln * opts.ui.float.height - 4)
+  local height = math.ceil(ln * opts.ui.float.height)
 
   local col = math.ceil((cl - width) * opts.ui.float.x)
-  local row = math.ceil((ln - height) * opts.ui.float.y - 1)
+  local row = math.ceil((ln - height) * opts.ui.float.y + top)
 
   return {
     width = width,
